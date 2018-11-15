@@ -1,0 +1,78 @@
+--Aluno: Gesoaldo
+--Matricula: 20171370010;
+
+SELECT * FROM ARTISTA;
+
+-- 1.Na tabela ARTISTA, quais artistas possuem cidade nula? Atualize três artistas com suas cidades. ok
+SELECT * FROM ARTISTA A WHERE A.CIDADE is null;
+
+UPDATE ARTISTA A SET A.CIDADE  = 'New York' WHERE A.COD_ARTISTA = 1;
+
+UPDATE ARTISTA A SET A.CIDADE  = 'Orlando' WHERE A.COD_ARTISTA = 3;
+
+UPDATE ARTISTA A SET A.CIDADE  = 'Texas' WHERE A.COD_ARTISTA = 4;
+
+-- 2.Quais artistas são brasileiros? Insira mais um artista brasileiro ok
+SELECT A.NOME_ARTISTA FROM ARTISTA A WHERE A.PAIS='Brasil';
+
+INSERT INTO ARTISTA A (A.COD_ARTISTA, A.NOME_ARTISTA, A.CIDADE, A.PAIS, A.DATA_NASC ) VALUES (9, 'Glória Pires', 'São Paulo', 'Brasil', '03/05/1969' );
+
+
+SELECT * FROM FILME;
+
+-- 3.Quais filmes (títulos) possuem duração maior que 135 min? - basta mostrar titulo na projeção
+SELECT TITULO, DURACAO FROM FILME WHERE DURACAO > 135;
+
+
+SELECT * FROM CATEGORIA;
+
+SELECT * FROM ESTUDIO;
+
+-- 4.Qual a categoria (descrição) do filme ‘Encontro Explosivo’? - na projeção, basta mostrar a categoria
+
+SELECT C.DESCRICAO_CATEG, F.TITULO FROM CATEGORIA C JOIN FILME F ON C.COD_CATEG = F.COD_CATEG WHERE F.TITULO='Encontro Explosivo';
+
+SELECT * FROM PERSONAGEM;
+
+--5. Qual o nome do artista que fez o filme ‘Encontro Explosivo’? - Na projeção, mostre o nome do artista apenas
+
+SELECT  A.NOME_ARTISTA, F.TITULO  FROM ARTISTA A JOIN PERSONAGEM P 
+ON P.COD_ARTISTA = A.COD_ARTISTA JOIN FILME F ON P.COD_FILME = F.COD_FILME WHERE F.TITULO='Encontro Explosivo'; 
+
+--6. Faça a inserção de dois filmes e seus personagens. ok
+
+INSERT INTO FILME F (F.COD_FILME, F.TITULO, F.ANO, F.DURACAO,F.COD_CATEG, F.COD_ESTUDIO ) VALUES (10, 'Hawk Black Down', '2006', '134', '4', '1');
+INSERT INTO FILME F (F.COD_FILME, F.TITULO, F.ANO, F.DURACAO,F.COD_CATEG, F.COD_ESTUDIO ) VALUES (11, 'As Branquelas', '2003', '121', '3', '2');
+
+INSERT INTO ARTISTA A (A.COD_ARTISTA, A.NOME_ARTISTA, A.CIDADE, A.PAIS, A.DATA_NASC ) VALUES (10, 'Tom Sizemore', 'Detroit', 'USA', '29/11/1961' );
+INSERT INTO ARTISTA A (A.COD_ARTISTA, A.NOME_ARTISTA, A.CIDADE, A.PAIS, A.DATA_NASC ) VALUES (11, 'Terry Crews', 'New York', 'USA', '02/03/1950' );
+
+INSERT INTO PERSONAGEM P (P.COD_ARTISTA, P.COD_FILME, P.NOME_PERSONAGEM, P.CACHE) VALUES (10,10,'Jack','5000');
+INSERT INTO PERSONAGEM P (P.COD_ARTISTA, P.COD_FILME, P.NOME_PERSONAGEM, P.CACHE) VALUES (11, 11,'Júlios','9000');
+
+--7. Selecione os artistas que tem o nome iniciando com a letra ‘B’ e participaram de filmes da categoria ‘Aventura’. - só o nome do artista
+
+SELECT A.NOME_ARTISTA, C.DESCRICAO_CATEG FROM ARTISTA A JOIN PERSONAGEM P ON P.COD_ARTISTA = A.COD_ARTISTA JOIN FILME F ON P.COD_FILME = F.COD_FILME JOIN CATEGORIA C ON F.COD_CATEG = C.COD_CATEG 
+WHERE A.NOME_ARTISTA LIKE 'B%' AND C.DESCRICAO_CATEG='Aventura';
+
+--8. Mostre os títulos de filmes, seus estúdios e suas categorias.ok 
+
+SELECT F.TITULO, E.NOME_ESTUDIO, C.DESCRICAO_CATEG FROM FILME F JOIN CATEGORIA C ON F.COD_CATEG = C.COD_CATEG JOIN ESTUDIO E ON F.COD_ESTUDIO = E.COD_ESTUDIO;
+
+--9. Veja quantos filmes existem por categoria (mostre a descrição da categoria e a contagem). ok
+
+SELECT  C.DESCRICAO_CATEG as Categoria, COUNT(*) as Quantidade FROM FILME F JOIN CATEGORIA C ON F.COD_CATEG = C.COD_CATEG GROUP BY C.DESCRICAO_CATEG;
+
+
+--10. Quantos artistas tiveram participações em filmes da categoria ‘Romance’? E em ‘Aventura’? - não precisa do group by
+
+SELECT C.DESCRICAO_CATEG as Categoria, COUNT(A.COD_ARTISTA) as Quantidade FROM ARTISTA A 
+JOIN PERSONAGEM P ON P.COD_ARTISTA = A.COD_ARTISTA 
+JOIN FILME F ON P.COD_FILME = F.COD_FILME 
+JOIN CATEGORIA C ON F.COD_CATEG = C.COD_CATEG 
+WHERE C.DESCRICAO_CATEG='Romance' or C.DESCRICAO_CATEG='Aventura' 
+GROUP BY C.DESCRICAO_CATEG; 
+
+
+
+

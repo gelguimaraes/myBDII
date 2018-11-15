@@ -1,0 +1,159 @@
+// JSON Document
+
+db.series.insertOne({
+	nome: "Westworld",
+	status: "Em andamento",
+	critica: [
+		{
+			login: "Rodrigo Serni",
+			comentario: "Sem dúvidas a melhor série q eu já vi, mind blowing fodido, ansioso pela segunda temporada."
+		},
+		{
+			login: "Fabio",
+			comentario: "As questões filosoficas e os diálogos ricos que fazem o seriado ser muito bom. Quem não gosta de pensar não vai gostar. O seriado é lento para a geração camera tremida."
+		},
+		{
+			login: "Alex S.",
+			comentario: "Se permitem dizer, acho que essa série é uma das top 10 que já assisti. Vale muito a pena."
+		}
+	],
+	produtores: [
+		"Jonathan Nolan", "Lisa Joy"
+	],
+	"atores-principais": [{
+		nome: "Evan Rachel Wood",
+		personagem: "Dolores Abernathy"
+	}, {
+		nome: "Thandie Newton",
+		personagem: "Maeve Millay"
+	}, {
+		nome: "Jeffrey Wright",
+		personagem: "Bernard Lowe"
+	}],
+	pais: "EUA",
+	gênero: ["Faroeste", "Ficção científica", "Suspense"],
+	duracao: 52,
+	ano: 2016,
+
+})
+
+db.series.insertMany([{
+	nome: "Jane The Virgin",
+	status: "Em andamento",
+	critica: [
+	{
+			login: "Dan",
+			comentario: "A serie e' legal. Mas Jane e' o tipo que faz a linha certinha, perfeitinha demais, porem nao passa de uma fofoqueirinha que nao sabe guardar qqr segredo. Acho ela chata pra caramba. O demais personagens sao otimos.",
+	},{
+			login: "tailana r.",
+			comentario: "Amo essa série.",
+	},	{
+			login: "Camila R.",
+			comentario: "É uma série viciante, uma espécie de novela mexicana cômica. Estou adorando!"
+		}
+	],
+	produtores: [
+		"Jennie Snyder"
+	],
+	"atores-principais": [{
+		nome: "Gina Rodriguez ",
+		personagem: "ane Villanueva"
+	}, {
+		nome: "Justin Baldoni",
+		personagem: "Rafael Solano"
+	}, {
+		nome: "Brett Dier",
+		personagem: "Michael Cordero Jr"
+	}, {
+		nome: "Andrea Navedo",
+		personagem: "Xiomara \"Xo\" Villanueva"
+	}],
+	pais: "EUA",
+	gênero: ["Comédia", "Drama", "Romance"],
+	duracao: 42,
+	ano: 2014,
+},
+					 {
+	nome: "La Casa de Papel",
+	status: "Completa",
+	critica: [
+		{
+			login: "Dom Mercie",
+			comentario: "o professor tmb ta tendo muito erro infantil deichou as digitais no carro esse pego pelo detetive a digital, a perai ne rsss."
+		},
+		{
+			login: "Wagner C.",
+			comentario: "Meia boca. Parece mais novela mexicana. Mas é um divertido passatempo"
+		},
+		{
+			login: "ayanna s.",
+			comentario: "como faço pra assistir não tô conseguindo"
+		}
+	],
+	produtores: [
+		"Álex Pina"
+	],
+	"atores-principais": [{
+		nome: "Úrsula Corberó",
+		personagem: "Tokio"
+	}, {
+		nome: "Alba Flores",
+		personagem: "Nairobi"
+	}, {
+		nome: "Miguel Herrán",
+		personagem: "Río"
+	}],
+	pais: "EUA",
+	gênero: ["Drama", "Suspense"],
+	duracao: 70,
+	ano: 2017,
+
+},{
+	nome: "Altered Carbon",
+	status: "Em andamento",
+	critica: [
+		{
+			login: "Dom Mercie",
+			comentario: "o professor tmb ta tendo muito erro infantil deichou as digitais no carro esse pego pelo detetive a digital, a perai ne rsss."
+		},
+		{
+			login: "Wagner C.",
+			comentario: "Meia boca. Parece mais novela mexicana. Mas é um divertido passatempo"
+		},
+		{
+			login: "ayanna s.",
+			comentario: "como faço pra assistir não tô conseguindo"
+		}
+	],
+	produtores: [
+		"Laeta Kalogridis"
+	],
+	"atores-principais": [{
+		nome: "Joel Kinnaman ",
+		personagem: "Takeshi Kovacs"
+	}, {
+		nome: "James Purefoy",
+		personagem: "Laurens Bancroft"
+	}, {
+		nome: "Martha Higareda",
+		personagem: "Kristin Ortega"
+	}, {
+		nome: "Kristin Lehman",
+		personagem: "Miriam Bancroft"
+	}],
+	pais: "EUA",
+	gênero: ["Policial", "Ficção científica", "Suspense"],
+	duracao: 58,
+	ano: 2018,
+
+}])
+//Apenas com condição de filtro
+db.series.find({ano: 2018})
+	//Com condição de filtro e projeção
+db.series.find({ano: {$gt: 2016}}, {nome: 1,_id: 0})
+	//Apenas com projeção
+db.series.find({}, {produtores: 1,_id: 0})
+	//Com acesso a estrutura embutida
+db.series.find({"atores-principais.nome" : "Kristin Lehman"}, {"nome": 1, _id:0})
+	//Com acesso a array (elemento)
+db.series.find({gênero: {$in: ["Suspense"]}}, {nome: 1,_id: 0})
